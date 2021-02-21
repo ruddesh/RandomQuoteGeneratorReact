@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Random Quote Generator</title>
+	<script crossorigin src="https://unpkg.com/react@17/umd/react.development.js"></script>
+	<script crossorigin src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+	<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+	<link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+	<div class="container" id='app'></div> 
+	<script type="text/babel">
+		const URL = 'https://gist.githubusercontent.com/camperbot/5a022b72e96c4c9585c32bf6a75f62d9/raw/e3c6895ce42069f0ee7e991229064f167fe8ccdc/quotes.json';
+class App extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      quotes: '',
+	  index: 0,
+	  quote: ''
+    };
+    this.getRandomIndex = this.getRandomIndex.bind(this);
+  }
+  
+  componentDidMount() {
+    fetch(URL).then(res => res.json()).then(res => { this.setState({ quotes: res.quotes }, this.getRandomIndex); });
+  }
+  
+  getRandomIndex = () => {
+    const quotes = this.state.quotes;
+    if(quotes.length > 0) {
+      const numIndex = Math.floor(Math.random() * quotes.length);
+    this.setState({
+		index: numIndex,
+		quote: quotes[numIndex]
+      });
+    }
+  }
+  
+  render() {
+	const quote = this.state.quote.quote;
+	const author = this.state.quote.author;
+	const twit = 'https://twitter.com/intent/tweet?hashtags=quotes&related=freecodecamp&text=' + encodeURIComponent('"' + quote + '" - ' + author);
+
+    return (
+    <div id="quote-box" className="justify-content-center col-xs-2">
+		<i class="fa fa-quote-left"> </i><p id="text">{quote}</p> 
+    <p className="text-end">-{author}</p>
+    <div className="d-flex justify-content-between">
+        <a id="tweet-quote" target="_balnk" className="btn btn-info position-relative" href={twit}><i className="fab fa-twitter"></i></a>
+        <button onClick={this.getRandomIndex} className="btn btn-primary position-relative">New quote</button>
+    </div>
+  </div>
+    );
+  }
+}
+ReactDOM.render(<App />, document.getElementById('app'));
+	</script>
+
+</body>
+</html>

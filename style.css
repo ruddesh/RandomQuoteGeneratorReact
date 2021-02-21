@@ -1,0 +1,16 @@
+@import url("https://fonts.googleapis.com/css?family=Raleway:400,500");
+body {
+  background-color: pink;
+  font-weight: 400;
+}
+#quote-box {
+  background: #fff;
+  margin: 20% 25% 15% 25%;
+  padding: 60px 60px 60px 60px;
+}
+#tweet-quote {
+  margin-right: 10px;
+}
+/* #new-quote {
+  margin-left: 300px;
+} */
